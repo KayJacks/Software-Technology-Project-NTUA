@@ -1,0 +1,532 @@
+{
+	"info": {
+		"_postman_id": "b21e9260-b398-427f-94a4-6b7165ad822e",
+		"name": "ConnectWays API Test",
+		"description": "Toll Interoperability Project, Group # 2175",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API",
+			"item": [
+				{
+					"name": "API ChargesBy Invalid Arguments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"s = String(\"Invalid arguments: date_from &gt; date_to\")\r",
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"pm.test(\"Body includes 'Invalid arguments: date_from > date_to'\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(s);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ChargesBy/:op_ID/:date_from/:date_to",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ChargesBy",
+								":op_ID",
+								":date_from",
+								":date_to"
+							],
+							"variable": [
+								{
+									"key": "op_ID",
+									"value": "Egnatia"
+								},
+								{
+									"key": "date_from",
+									"value": "19970101"
+								},
+								{
+									"key": "date_to",
+									"value": "19970102"
+								}
+							]
+						},
+						"description": "API endpoint to view all *charges* concerning an **Operator** given a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API ChargesBy EGNATIA",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Corrct PPOList\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.PPOList).to.eql([{\"VisitingOperator\":\"KO\",\"NumberOfPasses\":7,\"PassesCost\":14.2},{\"VisitingOperator\":\"AO\",\"NumberOfPasses\":5,\"PassesCost\":10.7},{\"VisitingOperator\":\"GF\",\"NumberOfPasses\":6,\"PassesCost\":9.25},{\"VisitingOperator\":\"MR\",\"NumberOfPasses\":4,\"PassesCost\":7.5},{\"VisitingOperator\":\"NE\",\"NumberOfPasses\":8,\"PassesCost\":14.75},{\"VisitingOperator\":\"OO\",\"NumberOfPasses\":4,\"PassesCost\":8.35}]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/ChargesBy/:op_ID/:date_from/:date_to",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"ChargesBy",
+								":op_ID",
+								":date_from",
+								":date_to"
+							],
+							"variable": [
+								{
+									"key": "op_ID",
+									"value": "Egnatia "
+								},
+								{
+									"key": "date_from",
+									"value": "20201001"
+								},
+								{
+									"key": "date_to",
+									"value": "20201101"
+								}
+							]
+						},
+						"description": "API endpoint to view all *charges* concerning an **Operator** given a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API PassesPerStation GEFYRA 200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is Correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.NumberOfPasses).to.eql(833);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/PassesPerStation/:stationID/:date_from/:date_to/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PassesPerStation",
+								":stationID",
+								":date_from",
+								":date_to",
+								""
+							],
+							"variable": [
+								{
+									"key": "stationID",
+									"value": "AO03"
+								},
+								{
+									"key": "date_from",
+									"value": "20210104"
+								},
+								{
+									"key": "date_to",
+									"value": "20210301"
+								}
+							]
+						},
+						"description": "API endpoint to view all *passes* through given **Station** during a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API PassesPerStation GEFYRA 400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Error 400 - Bad Request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/PassesPerStation/:stationID/:date_from/:date_to/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PassesPerStation",
+								":stationID",
+								":date_from",
+								":date_to",
+								""
+							],
+							"variable": [
+								{
+									"key": "stationID",
+									"value": "AO01"
+								},
+								{
+									"key": "date_from",
+									"value": "18210101"
+								},
+								{
+									"key": "date_to",
+									"value": "18210101"
+								}
+							]
+						},
+						"description": "API endpoint to view all *passes* through given **Station** during a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API PassesAnalysis KO-OO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is Correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.NumberOfPasses).to.eql(4);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/PassesAnalysis/:op_1/:op_2/:date_from/:date_to/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PassesAnalysis",
+								":op_1",
+								":op_2",
+								":date_from",
+								":date_to",
+								""
+							],
+							"variable": [
+								{
+									"key": "op_1",
+									"value": "moreas"
+								},
+								{
+									"key": "op_2",
+									"value": "nea_odos"
+								},
+								{
+									"key": "date_from",
+									"value": "20180101"
+								},
+								{
+									"key": "date_to",
+									"value": "20200101"
+								}
+							]
+						},
+						"description": "API endpoint to view all *passes* through stations belonging to **Operator1** by tags provided by **Operator2** given a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API PassesAnalysis Invalid provider",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400 - Bad Request\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/PassesAnalysis/:op_1/:op_2/:date_from/:date_to/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PassesAnalysis",
+								":op_1",
+								":op_2",
+								":date_from",
+								":date_to",
+								""
+							],
+							"variable": [
+								{
+									"key": "op_1",
+									"value": "aodos"
+								},
+								{
+									"key": "op_2",
+									"value": "kentriki_odo"
+								},
+								{
+									"key": "date_from",
+									"value": "20170101"
+								},
+								{
+									"key": "date_to",
+									"value": "20220101"
+								}
+							]
+						},
+						"description": "API endpoint to view all *passes* through stations belonging to **Operator1** by tags provided by **Operator2** given a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API PassesCost KO-OO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is Correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.PassesCost).to.eql(8.85);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/PassesCost/:op_1/:op_2/:date_from/:date_to/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PassesCost",
+								":op_1",
+								":op_2",
+								":date_from",
+								":date_to",
+								""
+							],
+							"variable": [
+								{
+									"key": "op_1",
+									"value": "aodos"
+								},
+								{
+									"key": "op_2",
+									"value": "egnatia"
+								},
+								{
+									"key": "date_from",
+									"value": "20200304"
+								},
+								{
+									"key": "date_to",
+									"value": "20210101"
+								}
+							]
+						},
+						"description": "API endpoint to view the *count* and total *cost* of all passes through stations belonging to **Operator1** by tags provided by **Operator2** given a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				},
+				{
+					"name": "API PassesCost OO-KO",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 300ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Result is Correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.PassesCost).to.eql(13.8);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/PassesCost/:op_1/:op_2/:date_from/:date_to/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"PassesCost",
+								":op_1",
+								":op_2",
+								":date_from",
+								":date_to",
+								""
+							],
+							"variable": [
+								{
+									"key": "op_1",
+									"value": "gefyra"
+								},
+								{
+									"key": "op_2",
+									"value": "nea_odos"
+								},
+								{
+									"key": "date_from",
+									"value": "20210101"
+								},
+								{
+									"key": "date_to",
+									"value": "20220101"
+								}
+							]
+						},
+						"description": "API endpoint to view the *count* and total *cost* of all passes through stations belonging to **Operator1** by tags provided by **Operator2** given a specific time period starting at **DateFrom** until **DateTo**"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "avocados",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://127.0.0.1:8000/interoperability",
+			"type": "string"
+		}
+	]
+}
